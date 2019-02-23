@@ -30,7 +30,7 @@ switch($request_method)
 					$usuarioRestHandler = new UsuarioRestHandler();
 					$usuarioRestHandler->userExists($dni);
 					break;
-				case "login":
+				case "login"://devuelve un 0 o un 1 si el usuarioy password son correctos (no se usa actualmente)
 					$correo="";
 					$password="";
 					if(isset($_GET["correo"]))
@@ -40,6 +40,17 @@ switch($request_method)
 					$usuarioRestHandler = new UsuarioRestHandler();
 					$usuarioRestHandler->userLogin($correo, $password);
 					
+					break;
+				case "parking":
+					if(isset($_GET["requestCode"])){
+						$requestCode=$_GET["requestCode"];
+					}
+					else{
+						$requestCode="todas";
+					}
+						
+					$parkingRestHandler = new ParkingRestHandler();
+					$parkingRestHandler->getPlazas($requestCode)
 					break;
 				default: //Devolver todos los datos del usuario segun el email
 					$password="";
