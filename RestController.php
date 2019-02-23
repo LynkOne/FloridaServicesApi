@@ -1,5 +1,6 @@
 <?php
 require_once("UsuarioRestHandler.php");
+require_once("ParkingRestHandler.php");
 $request_method=$_SERVER["REQUEST_METHOD"];	
 switch($request_method)
 	{
@@ -41,7 +42,7 @@ switch($request_method)
 					$usuarioRestHandler->userLogin($correo, $password);
 					
 					break;
-				case "parking":
+				case "parking"://devuelve todas las plazas por defecto (si requestCode es libres u ocupadas devuelve las plazas libres/ocupadas)
 					if(isset($_GET["requestCode"])){
 						$requestCode=$_GET["requestCode"];
 					}
@@ -50,7 +51,7 @@ switch($request_method)
 					}
 						
 					$parkingRestHandler = new ParkingRestHandler();
-					$parkingRestHandler->getPlazas($requestCode)
+					$parkingRestHandler->getPlazas($requestCode);
 					break;
 				default: //Devolver todos los datos del usuario segun el email
 					$password="";

@@ -12,13 +12,13 @@ Class Parking {
 		switch($requestCode){
 
 				case "ocupadas":
-					$query = "SELECT * FROM parking WHERE ocupado = 1";
+					$query = "SELECT ID, plaza, case ocupado when 0 then 'false' else 'true' end as ocupado FROM parking WHERE ocupado = 1";
 					break;
 				case "libres":
-					$query = "SELECT * FROM parking WHERE ocupado = 0";
+					$query = "SELECT ID, plaza, case ocupado when 0 then 'false' else 'true' end as ocupado FROM parking WHERE ocupado = 0";
 					break;
 				default:
-					$query = "SELECT * FROM parking";
+					$query = "SELECT ID, plaza, case ocupado when 0 then 'false' else 'true' end as ocupado FROM parking";
 					break;
 		}		
 		$dbcontroller = new DBController();
