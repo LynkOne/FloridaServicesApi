@@ -1,6 +1,7 @@
 <?php
 require_once("UsuarioRestHandler.php");
 require_once("ParkingRestHandler.php");
+require_once("PeceraRestHandler.php");
 $request_method=$_SERVER["REQUEST_METHOD"];	
 switch($request_method)
 	{
@@ -52,6 +53,17 @@ switch($request_method)
 						
 					$parkingRestHandler = new ParkingRestHandler();
 					$parkingRestHandler->getPlazas($requestCode);
+					break;
+					
+				case "peceras":
+					if(isset($_GET["requestCode"])){
+						$requestCode=$_GET["requestCode"];
+					}
+					else{
+						$requestCode="todas";
+						}
+					$peceraRestHandler = new PeceraRestHandler();
+					$peceraRestHandler->getPeceras($requestCode);
 					break;
 				default: //Devolver todos los datos del usuario segun el email
 					$password="";
