@@ -76,25 +76,49 @@ switch($request_method)
 			}
 			break;
 		case 'POST':
-			// Insert User
-			$dni=$_GET["dni"];
-			$nombre=$_GET["nombre"];
-			$apellidos=$_GET["apellidos"];
-			$correo=$_GET["correo"];
-			$contrasenya=$_GET["contrasenya"];
-			$tipo=$_GET["tipo"];
-			$telefono=$_GET["telefono"];
-			$codProf=$_GET["codProf"];
+			// Update Product
+			parse_str(file_get_contents("php://input"),$_PUT);
+			$accion = "";
+			if(isset($_GET["accion"])){
+				$accion = $_GET["accion"];
+			}
+			switch($accion){
+
+				case "abandonarpecera":
+					if(isset($_GET["id"])){
+						$id=$_GET["id"];
+					}
+					if(isset($_GET["dni"])){
+						$dni=$_GET["dni"];
+					}
+					
+					$peceraRestHandler = new PeceraRestHandler();
+					$peceraRestHandler->abandonarPecera($id, $dni);
+					
+					break;
+				default:
+					// Insert User
+					$dni=$_GET["dni"];
+					$nombre=$_GET["nombre"];
+					$apellidos=$_GET["apellidos"];
+					$correo=$_GET["correo"];
+					$contrasenya=$_GET["contrasenya"];
+					$tipo=$_GET["tipo"];
+					$telefono=$_GET["telefono"];
+					$codProf=$_GET["codProf"];
 			
-			$usuarioRestHandler = new UsuarioRestHandler();
-			$usuarioRestHandler->addUser($dni, $nombre, $apellidos, $correo, $contrasenya, $tipo, $telefono, $codProf);
+					$usuarioRestHandler = new UsuarioRestHandler();
+					$usuarioRestHandler->addUser($dni, $nombre, $apellidos, $correo, $contrasenya, $tipo, $telefono, $codProf);
+					//default action
+					break;
+			
 			break;
 		case 'PUT':
-			// Update Product
-			
+			//PUT NO SOPORTADO POR 000WEBHOST
+			}
 			break;
 		case 'DELETE':
-			// Delete Product
+			// Delete NO SOPORTADO POR 000WEBHOST
 			
 			break;
 		default:
