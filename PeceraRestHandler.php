@@ -52,7 +52,26 @@ class PeceraRestHandler extends SimpleRest {
 			echo $response;
 		}
 	}
-
+	public function reservarPecera($id, $tiempo, $dni){
+		$pecera = new Pecera();
+		
+		//Ejecutamos update
+		$rawData = $pecera->reservarPecera($id, $tiempo, $dni);		
+		if(empty($rawData)) {
+			$statusCode = 200;		
+		} else {
+			$statusCode = 200;
+		}
+		$requestContentType = 'application/json';//$_POST['HTTP_ACCEPT'];
+		$this ->setHttpHeaders($requestContentType, $statusCode);
+		
+		$result["peceras"] = $rawData;
+				
+		if(strpos($requestContentType,'application/json') !== false){
+			$response = $this->encodeJson($result);
+			echo $response;
+		}
+	}
 	
 	
 	public function encodeJson($responseData) {

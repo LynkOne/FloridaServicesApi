@@ -13,14 +13,11 @@ Class Pecera {
 		date_default_timezone_set('Europe/Madrid');
 		$date = date('Y-m-d H:i:s'); // use actual date() format displayed in your table.
 		switch($requestCode){
-				//Se añade el NOW()+010000 para compensar la hora del servidor mysql del hosting
+				
 				case "ocupadas":
-					
-					//$query = "SELECT *, TIME(hora_de_reserva+tiempo_reservado) AS fin_de_reserva FROM peceras WHERE TIME($date)<TIME(hora_de_reserva+tiempo_reservado)AND DATE($date)>=DATE(hora_de_reserva);";
 					$query="SELECT *, TIME(hora_de_reserva+tiempo_reservado) AS fin_de_reserva FROM peceras WHERE DATE('$date')<=DATE(hora_de_reserva) AND  TIME('$date')<TIME(hora_de_reserva+tiempo_reservado)";
 					break;
 				case "libres":
-					//$query = "SELECT * FROM peceras WHERE TIME(NOW()+010000)>TIME(hora_de_reserva+tiempo_reservado)AND DATE(NOW()+010000)>=DATE(hora_de_reserva);";
 					$query="SELECT * FROM peceras WHERE DATE('$date')>DATE(hora_de_reserva) AND  TIME('$date')<TIME(hora_de_reserva+tiempo_reservado)";
 					break;
 				default:
@@ -35,12 +32,22 @@ Class Pecera {
 	public function abandonarPecera($id, $dni){
 					
 		
-					$query = "UPDATE peceras SET tiempo_reservado='00:00:00', dni_usuario_reserva=null WHERE id=$id AND dni_usuario_reserva='$dni'";
+		$query = "UPDATE peceras SET tiempo_reservado='00:00:00', dni_usuario_reserva=null WHERE id=$id AND dni_usuario_reserva='$dni'";
 					
 		$dbcontroller = new DBController();
 		$dbcontroller->executeSelectQuery($query);
 		//return $this->peceras;
-	}		
+	}
+	public function reservarPecera($id, $tiempo, $dni){
+		date_default_timezone_set('Europe/Madrid');
+		$date = date('Y-m-d H:i:s'); // use actual date() format displayed in your table.			
+		//UPDATE peceras SET tiempo_reservado='05:00:00', hora_de_reserva='2019-02-25 00:59:43', dni_usuario_reserva='073579654D' WHERE id='1'
+		$query = "UPDATE peceras SET tiempo_reservado='$tiempo', hora_de_reserva='$date', dni_usuario_reserva='$dni' WHERE id='$id'";
+					
+		$dbcontroller = new DBController();
+		$dbcontroller->executeSelectQuery($query);
+		//return $this->peceras;
+	}	
 	
 	
 }

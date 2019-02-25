@@ -96,6 +96,19 @@ switch($request_method)
 					$peceraRestHandler->abandonarPecera($id, $dni);
 					
 					break;
+				case "reservarpecera":
+					if(isset($_GET["id"])){
+						$id=$_GET["id"];
+					}
+					if(isset($_GET["dni"])){
+						$dni=$_GET["dni"];
+					}
+					if(isset($_GET["tiempo"])){
+						$tiempo=$_GET["tiempo"];
+					}
+					$peceraRestHandler = new PeceraRestHandler();
+					$peceraRestHandler->reservarPecera($id, $tiempo, $dni);
+					break;
 				default:
 					// Insert User
 					$dni=$_GET["dni"];
