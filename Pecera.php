@@ -15,10 +15,11 @@ Class Pecera {
 		switch($requestCode){
 				
 				case "ocupadas":
-					$query="SELECT *, TIME(hora_de_reserva+tiempo_reservado) AS fin_de_reserva FROM peceras WHERE DATE('$date')<=DATE(hora_de_reserva) AND  TIME('$date')<TIME(hora_de_reserva+tiempo_reservado)";
+					//$query="SELECT *, TIME(hora_de_reserva+tiempo_reservado) AS fin_de_reserva FROM peceras WHERE DATE('$date')<=DATE(hora_de_reserva) AND  TIME('$date')<TIME(hora_de_reserva+tiempo_reservado)";
+					$query="SELECT *, (SELECT addtime(TIME(hora_de_reserva), tiempo_reservado)) AS fin_de_reserva FROM peceras WHERE dni_usuario_reserva IS NOT NULL AND DAY('$date')=DAY(hora_de_reserva) AND TIME('$date')<(SELECT addtime(TIME(hora_de_reserva), tiempo_reservado))";
 					break;
 				case "libres":
-					$query="SELECT * FROM peceras WHERE DATE('$date')>DATE(hora_de_reserva) AND  TIME('$date')<TIME(hora_de_reserva+tiempo_reservado)";
+					$query="SELECT * FROM peceras WHERE DATE('2019-02-26 01:39:00')>=DATE(hora_de_reserva) AND TIME('$date')>=TIME(hora_de_reserva+tiempo_reservado) OR DAY('$date')>DAY(hora_de_reserva)";
 					break;
 				default:
 					$query = "SELECT * FROM peceras";
